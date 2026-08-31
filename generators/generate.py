@@ -943,6 +943,29 @@ def _generated_sets(outputs: Mapping[Path, bytes]) -> dict[Path, set[Path]]:
     }
 
 
+def _generated_candidates(root: Path) -> tuple[Path, ...]:
+    """Return files owned by the generator under one generated root.
+
+    TypeScript top-level source and distribution files are generated, while
+    packet-owned extensions live in subdirectories such as
+    ``typescript/src/telemetry`` and ``typescript/dist/telemetry``. Other
+    generated roots remain recursively closed.
+    """
+
+    absolute_root = ROOT / root
+    if not absolute_root.is_dir():
+        return ()
+    if root in {Path("typescript/src"), Path("typescript/dist")}:
+        return tuple(absolute_root.iterdir())
+    return tuple(absolute_root.rglob("*"))
+
+
+def _reject_generated_links(root: Path) -> None:
+    absolute_root = ROOT / root
+    if absolute_root.is_symlink() or any(path.is_symlink() for path in absolute_root.rglob("*")):
+        raise ValueError(f"generated directory contains a linked output: {root}")
+
+
 def _check(outputs: Mapping[Path, bytes]) -> None:
     for path, expected in outputs.items():
         absolute = ROOT / path
@@ -951,13 +974,13 @@ def _check(outputs: Mapping[Path, bytes]) -> None:
         if absolute.read_bytes() != expected:
             raise ValueError(f"generated output is stale: {path}")
     for root, expected in _generated_sets(outputs).items():
-        absolute_root = ROOT / root
+        _reject_generated_links(root)
         actual = {
             path.relative_to(ROOT)
-            for path in absolute_root.rglob("*")
+            for path in _generated_candidates(root)
             if path.is_file() and not path.is_symlink()
         }
-        if any(path.is_symlink() for path in absolute_root.rglob("*")) or actual != expected:
+        if actual != expected:
             raise ValueError(f"generated directory contains an undeclared output: {root}")
 
 
@@ -969,14 +992,12 @@ def _write(outputs: Mapping[Path, bytes]) -> None:
             continue
         absolute.write_bytes(content)
     for root, expected in _generated_sets(outputs).items():
-        absolute_root = ROOT / root
-        for path in sorted(absolute_root.rglob("*"), reverse=True):
+        _reject_generated_links(root)
+        for path in sorted(_generated_candidates(root), reverse=True):
             relative = path.relative_to(ROOT)
-            if path.is_symlink():
-                raise ValueError(f"generated link is forbidden: {relative}")
             if path.is_file() and relative not in expected:
                 path.unlink()
-            elif path.is_dir() and not any(path.iterdir()):
+            elif root not in {Path("typescript/src"), Path("typescript/dist")} and path.is_dir() and not any(path.iterdir()):
                 path.rmdir()
 
 

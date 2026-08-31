@@ -1,0 +1,83 @@
+{
+  "behavioralChanges": [
+    {
+      "decision": "Drop raw prompts, bodies, messages, credentials, secrets, and unknown keys.",
+      "from": "SOURCE_BEHAVIOR_NOT_OBSERVED",
+      "id": "content-redaction-default",
+      "to": "ALLOWLIST_AND_REDACT"
+    },
+    {
+      "decision": "Require explicit trust before carrier identity fields are admitted.",
+      "from": "SOURCE_BEHAVIOR_NOT_OBSERVED",
+      "id": "identity-boundary-is-explicit",
+      "to": "TRACE_ONLY_BY_DEFAULT"
+    },
+    {
+      "decision": "Retain spans only when a caller supplies a local sink; no exporter exists in core.",
+      "from": "SOURCE_BEHAVIOR_NOT_OBSERVED",
+      "id": "no-external-export-default",
+      "to": "NULL_SINK"
+    },
+    {
+      "decision": "Use stable tenant-neutral harness.* attributes and never source-specific names.",
+      "from": "SOURCE_BEHAVIOR_NOT_OBSERVED",
+      "id": "tenant-neutral-semantic-namespace",
+      "to": "harness.telemetry.attributes/v1"
+    }
+  ],
+  "implementation": {
+    "method": "INDEPENDENT_CLEAN_ROOM_FROM_PUBLIC_PACKET_AND_STANDARDS",
+    "sourceBytesObserved": false,
+    "sourceCheckoutMounted": false,
+    "sourceCodeCopiedAdaptedTranslatedOrExecuted": false
+  },
+  "packetId": "SDK-002",
+  "packetAuthority": {
+    "commit": "f5bcc2bfe7c6a6c75d01f43f97d3a7f29f34dc9c",
+    "packetPath": "task-packets/SDK-002.yaml",
+    "packetSha256": "sha256:b791f5f514dec76ebfd37ea17c7b0ca024057fbe4ebc2443bcdf15e7ca18c151",
+    "repository": "https://github.com/caglarsubas/harness-onion.git"
+  },
+  "porting": {
+    "authorizationCount": 0,
+    "destinationLedgerModified": false,
+    "destinationLedgerSha256": "sha256:c732e4aa47b420d1ca6548d9e8ecc1d4025f90295aeef41ffbf2d0047fdef361",
+    "state": "NO_AUTHORIZATION"
+  },
+  "provenanceAuthority": {
+    "commit": "2c380226e2162b70fae41d573bd77705157ebd44",
+    "copyAuthorizationEnabled": false,
+    "indexPath": "architecture/reuse-path-index.yaml",
+    "indexSha256": "sha256:88169f2574263096546ff541f749ddf623d66361e4dec351133ad9fb89876cd6",
+    "repository": "https://github.com/caglarsubas/harness-onion.git",
+    "sourceCommit": "6815c21cb10a4d7dc0b4804f6bb223afb4321e97",
+    "sourceRepository": "git@github.com:caglarsubas/llm_inference_engine.git",
+    "sourceReferences": [
+      {
+        "gitObject": "1608ccdf41e459c9fae74abe1983f8402b204fb7",
+        "path": "src/inference_engine/genai_metrics.py",
+        "reuseDisposition": "REFERENCE_ONLY_PENDING_PATH_REVIEW"
+      },
+      {
+        "gitObject": "ead6fad24f9603786605807692756659fa554890",
+        "path": "src/inference_engine/otel.py",
+        "reuseDisposition": "REFERENCE_ONLY_PENDING_PATH_REVIEW"
+      },
+      {
+        "gitObject": "faa1df518dbdd4779523460e0f7b3ed93aa33afd",
+        "path": "src/inference_engine/request_identity.py",
+        "reuseDisposition": "REFERENCE_ONLY_PENDING_PATH_REVIEW"
+      }
+    ]
+  },
+  "schemaVersion": "harness.telemetry.clean-room-evidence/v1",
+  "verification": {
+    "crossLanguageGoldenVectorIds": [
+      "sync-error-redacts-credentials",
+      "sync-success-redacts-content"
+    ],
+    "externalTelemetryDefault": false,
+    "providerSpecificContracts": false,
+    "rawContentExport": false
+  }
+}

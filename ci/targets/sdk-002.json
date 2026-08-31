@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "harness.planeon.ai/make-target-descriptor/v1alpha1",
+  "packetId": "SDK-002",
+  "targets": [
+    {
+      "name": "build-reproducible",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/telemetry", "-p", "test_*.py"],
+        ["python3", "typescript/tests/telemetry/verify_source.py"],
+        ["python3", "typescript/tests/telemetry/verify_package.py"],
+        ["python3", "ci/validate_porting.py", "PORTING.yaml"],
+        ["python3", "ci/zero_bill_scan.py", "."]
+      ]
+    },
+    {
+      "name": "telemetry-vectors",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/telemetry", "-p", "test_*.py"],
+        ["python3", "typescript/tests/telemetry/verify_source.py"],
+        ["python3", "ci/validate_porting.py", "PORTING.yaml"],
+        ["python3", "ci/zero_bill_scan.py", "."]
+      ]
+    }
+  ]
+}

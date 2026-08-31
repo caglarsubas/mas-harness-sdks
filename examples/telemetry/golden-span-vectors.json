@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "harness.telemetry.golden-vectors/v1",
+  "standards": {
+    "attributeNaming": "OpenTelemetry Semantic Conventions 1.44.0",
+    "traceContext": "W3C Trace Context version 00"
+  },
+  "vectors": [
+    {
+      "expected": {
+        "attributes": {
+          "harness.correlation.id": "corr-456",
+          "harness.id": "knowledge.domain-semantic",
+          "harness.label.workflow": "quality_check",
+          "harness.operation.id": "op-123",
+          "harness.operation.kind": "INTERNAL",
+          "harness.operation.name": "harness.profile.compile",
+          "harness.operation.outcome": "success",
+          "harness.organization.id": "org-a",
+          "harness.plane.id": "knowledge",
+          "harness.telemetry.schema.version": "1.0.0",
+          "harness.tenant.id": "tenant-a"
+        },
+        "droppedAttributesCount": 1,
+        "endTimeUnixNano": "140",
+        "events": [],
+        "kind": "INTERNAL",
+        "name": "harness.profile.compile",
+        "parentSpanId": "00f067aa0ba902b7",
+        "schemaVersion": "harness.telemetry.span/v1",
+        "spanId": "1111111111111111",
+        "startTimeUnixNano": "100",
+        "status": {
+          "code": "OK"
+        },
+        "traceFlags": "01",
+        "traceId": "4bf92f3577b34da6a3ce929d0e0e4736"
+      },
+      "id": "sync-success-redacts-content",
+      "input": {
+        "attributes": {
+          "gen_ai.prompt": "fixture-secret-that-must-not-be-exported",
+          "harness.label.workflow": "quality_check"
+        },
+        "clock": [
+          100,
+          140
+        ],
+        "operationKind": "INTERNAL",
+        "operationName": "harness.profile.compile",
+        "spanId": "1111111111111111"
+      }
+    },
+    {
+      "expected": {
+        "attributes": {
+          "error.type": "validation_error",
+          "harness.correlation.id": "corr-456",
+          "harness.id": "knowledge.domain-semantic",
+          "harness.label.rule_set": "baseline",
+          "harness.operation.id": "op-123",
+          "harness.operation.kind": "SERVER",
+          "harness.operation.name": "harness.policy.evaluate",
+          "harness.operation.outcome": "error",
+          "harness.organization.id": "org-a",
+          "harness.plane.id": "knowledge",
+          "harness.telemetry.schema.version": "1.0.0",
+          "harness.tenant.id": "tenant-a"
+        },
+        "droppedAttributesCount": 1,
+        "endTimeUnixNano": "260",
+        "events": [
+          {
+            "attributes": {
+              "exception.type": "validation_error"
+            },
+            "name": "exception",
+            "timeUnixNano": "260"
+          }
+        ],
+        "kind": "SERVER",
+        "name": "harness.policy.evaluate",
+        "parentSpanId": "00f067aa0ba902b7",
+        "schemaVersion": "harness.telemetry.span/v1",
+        "spanId": "2222222222222222",
+        "startTimeUnixNano": "200",
+        "status": {
+          "code": "ERROR"
+        },
+        "traceFlags": "01",
+        "traceId": "4bf92f3577b34da6a3ce929d0e0e4736"
+      },
+      "id": "sync-error-redacts-credentials",
+      "input": {
+        "attributes": {
+          "harness.label.rule_set": "baseline",
+          "http.request.authorization": "fixture-credential-that-must-not-be-exported"
+        },
+        "clock": [
+          200,
+          260
+        ],
+        "errorType": "validation_error",
+        "operationKind": "SERVER",
+        "operationName": "harness.policy.evaluate",
+        "spanId": "2222222222222222"
+      }
+    }
+  ],
+  "parentContext": {
+    "correlationId": "corr-456",
+    "harnessId": "knowledge.domain-semantic",
+    "operationId": "op-123",
+    "organizationId": "org-a",
+    "planeId": "knowledge",
+    "spanId": "00f067aa0ba902b7",
+    "tenantId": "tenant-a",
+    "traceFlags": "01",
+    "traceId": "4bf92f3577b34da6a3ce929d0e0e4736"
+  }
+}

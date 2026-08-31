@@ -1,0 +1,43 @@
+{
+  "allowedCustomPrefix": "harness.label.",
+  "keys": {
+    "correlation_id": "harness.correlation.id",
+    "error_type": "error.type",
+    "exception_type": "exception.type",
+    "harness_id": "harness.id",
+    "operation_id": "harness.operation.id",
+    "operation_kind": "harness.operation.kind",
+    "operation_name": "harness.operation.name",
+    "organization_id": "harness.organization.id",
+    "outcome": "harness.operation.outcome",
+    "plane_id": "harness.plane.id",
+    "schema_version": "harness.telemetry.schema.version",
+    "tenant_id": "harness.tenant.id"
+  },
+  "maximumStringLength": 256,
+  "operationKinds": [
+    "CLIENT",
+    "CONSUMER",
+    "INTERNAL",
+    "PRODUCER",
+    "SERVER"
+  ],
+  "schemaVersion": "harness.telemetry.attributes/v1",
+  "semanticVersion": "1.0.0",
+  "sensitiveKeySegments": [
+    "api_key",
+    "authorization",
+    "body",
+    "completion",
+    "content",
+    "cookie",
+    "credential",
+    "message",
+    "password",
+    "payload",
+    "prompt",
+    "secret",
+    "token"
+  ],
+  "stringFormat": "opaque-safe-identifier-without-whitespace"
+}
