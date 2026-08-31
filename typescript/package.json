@@ -19,6 +19,10 @@
     "./runtime": {
       "types": "./dist/runtime/index.d.ts",
       "import": "./dist/runtime/index.js"
+    },
+    "./protocols": {
+      "types": "./dist/protocols/index.d.ts",
+      "import": "./dist/protocols/index.js"
     }
   },
   "engines": {"node": ">=20"},

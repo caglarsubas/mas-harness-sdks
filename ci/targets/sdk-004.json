@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "harness.planeon.ai/make-target-descriptor/v1alpha1",
+  "packetId": "SDK-004",
+  "targets": [
+    {
+      "name": "protocol-vectors",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "generators/verify_contract_lock.py"],
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/protocols", "-p", "test_*.py"],
+        ["node", "--test", "typescript/tests/protocols/protocols.test.ts"],
+        ["python3", "typescript/tests/protocols/verify_surfaces.py"]
+      ]
+    },
+    {
+      "name": "contract",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["node", "--test", "typescript/tests/protocols/package-protocols.test.mjs"],
+        ["python3", "-m", "unittest", "discover", "-s", "tests/generated", "-p", "test_*.py"],
+        ["python3", "ci/validate_porting.py", "PORTING.yaml"],
+        ["python3", "ci/zero_bill_scan.py", "."]
+      ]
+    }
+  ]
+}
