@@ -716,6 +716,7 @@ def _typescript_index() -> bytes:
         "export * from './models.js';\n"
         "export * from './client.js';\n"
         "export * from './events.js';\n"
+        "export * from './runtime/index.js';\n"
     ).encode("utf-8")
 
 

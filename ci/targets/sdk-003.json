@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "harness.planeon.ai/make-target-descriptor/v1alpha1",
+  "packetId": "SDK-003",
+  "targets": [
+    {
+      "name": "runtime-vectors",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "generators/verify_contract_lock.py"],
+        ["python3", "generators/generate.py", "--check"],
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/runtime", "-p", "test_*.py"],
+        ["node", "--test", "typescript/tests/runtime/runtime.test.ts"]
+      ]
+    },
+    {
+      "name": "security",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["node", "--test", "typescript/tests/runtime/package-runtime.test.mjs"],
+        ["python3", "typescript/tests/runtime/verify_surfaces.py"],
+        ["python3", "-m", "unittest", "discover", "-s", "tests/generated", "-p", "test_*.py"],
+        ["python3", "ci/validate_porting.py", "PORTING.yaml"],
+        ["python3", "ci/zero_bill_scan.py", "."]
+      ]
+    }
+  ]
+}

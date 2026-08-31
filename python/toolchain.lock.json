@@ -5,5 +5,10 @@
   "version": "3.12.14",
   "uvVersion": "0.12.7",
   "buildBackend": "dependency-free-stdlib-v1",
-  "dependencies": []
+  "dependencies": [
+    {"name": "cffi", "version": "2.1.0"},
+    {"name": "cryptography", "version": "49.0.0"},
+    {"name": "pycparser", "version": "3.0"}
+  ],
+  "runtimeDependencyLock": "runtime-dependencies.lock.json"
 }

@@ -52,6 +52,8 @@ def sync(source_root: Path, expected_commit: str) -> dict[str, object]:
     manifest = load_json(manifest_path)
     if not isinstance(manifest, dict) or manifest.get("apiVersion") != "harness.planeon.ai/v1alpha1":
         raise ValueError("contract release manifest has an unknown authority")
+    if manifest.get("extensionPacketIds") != ["CON-007"]:
+        raise ValueError("contract release does not contain the approved CON-007 extension")
     raw_entries = manifest.get("entries")
     if not isinstance(raw_entries, list):
         raise ValueError("contract release manifest entries are absent")
@@ -80,8 +82,8 @@ def sync(source_root: Path, expected_commit: str) -> dict[str, object]:
             }
         )
     selected.sort(key=lambda entry: entry["path"])
-    if len(selected) != 31:
-        raise ValueError(f"expected 31 released API inputs, found {len(selected)}")
+    if len(selected) != 37:
+        raise ValueError(f"expected 37 released API inputs, found {len(selected)}")
 
     canonical_manifest = canonical_json_bytes(manifest)
     snapshot_manifest = SNAPSHOT_ROOT / "contracts" / "release-manifest.json"
@@ -108,6 +110,7 @@ def sync(source_root: Path, expected_commit: str) -> dict[str, object]:
             "manifestPath": "contracts/release-manifest.json",
             "manifestSha256": sha256_bytes(canonical_manifest),
             "artifactState": manifest.get("artifactState"),
+            "extensionPacketIds": manifest.get("extensionPacketIds"),
         },
         "snapshotRoot": "generators/contract-snapshot",
         "canonicalization": "SORTED_UTF8_JSON_V1",

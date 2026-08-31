@@ -2,7 +2,7 @@
 export type JsonScalar = null | boolean | number | string;
 export type JsonValue = JsonScalar | Array<JsonValue> | JsonObject;
 export interface JsonObject { [key: string]: JsonValue; }
-export declare const CONTRACT_RELEASE_DIGEST: "sha256:76c6098ce16da7e5c45d7955feb65f4972715c803e4f989443def0edbca38105";
+export declare const CONTRACT_RELEASE_DIGEST: "sha256:c5dd4c39d1c69d07f8d8de3d1a09584bb906172fee2d5ac20ad25ff344b0db79";
 
 export interface ApprovalDecision {
   decision: "APPROVE" | "REJECT";
@@ -19,6 +19,13 @@ export interface ApprovalRequest {
 export interface BillOfMaterials {
   apiVersion: JsonValue;
   kind: "BillOfMaterials";
+  metadata: JsonValue;
+  spec: JsonObject;
+}
+
+export interface BudgetConsumption {
+  apiVersion: JsonValue;
+  kind: "BudgetConsumption";
   metadata: JsonValue;
   spec: JsonObject;
 }
@@ -253,6 +260,97 @@ export interface ProjectionFreshness {
   kind: "ProjectionFreshness";
   metadata: JsonValue;
   spec: JsonValue;
+}
+
+export interface ReplayRecord {
+  apiVersion: JsonValue;
+  kind: "ReplayRecord";
+  metadata: JsonValue;
+  spec: JsonObject;
+}
+
+export interface RuntimeAdmissionReceipt {
+  apiVersion: JsonValue;
+  kind: "RuntimeAdmissionReceipt";
+  metadata: JsonValue;
+  payload: JsonObject;
+  signature: JsonValue;
+}
+
+export interface RuntimeCommonSchemaApiVersion {
+}
+
+export interface RuntimeCommonSchemaBase64urlPublicKey {
+}
+
+export interface RuntimeCommonSchemaBase64urlSignature {
+}
+
+export interface RuntimeCommonSchemaBudgetLimits {
+  maxConcurrentTasks: number;
+  maxModelTokens: number;
+  maxRetries: number;
+  maxTaskSeconds: number;
+  maxToolCalls: number;
+}
+
+export interface RuntimeCommonSchemaBudgetObserved {
+  concurrentTasks: number;
+  modelTokens: number;
+  retries: number;
+  taskSeconds: number;
+  toolCalls: number;
+}
+
+export interface RuntimeCommonSchemaDenialReason {
+}
+
+export interface RuntimeCommonSchemaKeyPurpose {
+}
+
+export interface RuntimeCommonSchemaMetadata {
+  id: JsonValue;
+  version: JsonValue;
+}
+
+export interface RuntimeCommonSchemaNonce {
+}
+
+export interface RuntimeCommonSchemaSemver {
+}
+
+export interface RuntimeCommonSchemaSha256 {
+}
+
+export interface RuntimeCommonSchemaSignature {
+  algorithm: "ED25519";
+  keyId: JsonValue;
+  profile: "RFC8785_JCS_ED25519_V1";
+  purpose: JsonValue;
+  signedMessageDigest: JsonValue;
+  value: JsonValue;
+}
+
+export interface RuntimeCommonSchemaStableId {
+}
+
+export interface RuntimeCommonSchemaTimestamp {
+}
+
+export interface RuntimeTrustBundle {
+  apiVersion: JsonValue;
+  kind: "RuntimeTrustBundle";
+  metadata: JsonValue;
+  payload: JsonObject;
+  signature: JsonValue;
+}
+
+export interface SignedAdmissionEnvelope {
+  apiVersion: JsonValue;
+  kind: "SignedAdmissionEnvelope";
+  metadata: JsonValue;
+  payload: JsonObject;
+  signature: JsonValue;
 }
 
 export interface StatusAxisProjection {

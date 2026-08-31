@@ -48,12 +48,20 @@ class MakeDispatcherTests(unittest.TestCase):
         path.write_text(json.dumps(value), encoding="utf-8")
         return path
 
-    def test_repository_descriptor_has_only_bootstrap_targets(self) -> None:
+    def test_repository_descriptor_has_all_declared_packet_targets(self) -> None:
         directory = ROOT / "ci" / "targets"
         rules = run_make_target.load_rules(directory)
         self.assertEqual(
             {rule.name for rule in rules},
-            {"build-reproducible", "generated-check", "help", "prefetch"},
+            {
+                "build-reproducible",
+                "generated-check",
+                "help",
+                "prefetch",
+                "runtime-vectors",
+                "security",
+                "telemetry-vectors",
+            },
         )
 
     def test_missing_unknown_owner_and_duplicate_rules_fail_closed(self) -> None:

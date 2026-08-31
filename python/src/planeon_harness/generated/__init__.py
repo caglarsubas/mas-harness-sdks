@@ -3,7 +3,7 @@
 from .client import HarnessClient, OPERATIONS, Request, build_request
 from .events import CHANNELS, MESSAGE_NAMES
 from .models import CONTRACT_RELEASE_DIGEST, MODEL_CONTRACTS, JsonValue
-from .models import ApprovalDecision, ApprovalRequest, BillOfMaterials, BundleRelease, CompileRequest, CompiledProfileDocument, CompositionCommonSchemaApiVersion, CompositionCommonSchemaAssuranceSubjects, CompositionCommonSchemaEnvironment, CompositionCommonSchemaExecutionBudgetSpec, CompositionCommonSchemaInstallUnit, CompositionCommonSchemaMetadata, CompositionCommonSchemaProviderSelection, CompositionCommonSchemaSelectorProposal, CompositionCommonSchemaSemver, CompositionCommonSchemaSha256, CompositionCommonSchemaStableId, EvidencePlan, EvidenceRecord, ExecutionBudget, HarnessCloudEvent, HarnessInstallation, HarnessProfile, HarnessStatusProjection, InstallPlan, LifecycleCommonSchemaActor, LifecycleCommonSchemaApiVersion, LifecycleCommonSchemaFailure, LifecycleCommonSchemaImmutableBinding, LifecycleCommonSchemaMetadata, LifecycleCommonSchemaReasonCode, LifecycleCommonSchemaResourceRef, LifecycleCommonSchemaSemver, LifecycleCommonSchemaSha256, LifecycleCommonSchemaStableId, LifecycleCommonSchemaTimestamp, Operation, OrganizationHarnessPortfolioPage, PlaneStatusProjection, PolicyBundle, ProjectionFreshness, StatusAxisProjection, StatusCommonSchemaAggregateState, StatusCommonSchemaApiVersion, StatusCommonSchemaApplicability, StatusCommonSchemaEvidenceAxis, StatusCommonSchemaEvidenceState, StatusCommonSchemaFinding, StatusCommonSchemaFreshness, StatusCommonSchemaFreshnessState, StatusCommonSchemaHarnessSummary, StatusCommonSchemaInstallationState, StatusCommonSchemaMetadata, StatusCommonSchemaNonWaivedEvidenceState, StatusCommonSchemaPlaneSummary, StatusCommonSchemaProjectionBinding, StatusCommonSchemaReasonCode, StatusCommonSchemaResourceRef, StatusCommonSchemaSelectionState, StatusCommonSchemaSemver, StatusCommonSchemaSha256, StatusCommonSchemaSourceCursor, StatusCommonSchemaStableId, StatusCommonSchemaStateCount, StatusCommonSchemaStatusAxis, StatusCommonSchemaTimestamp, StatusCommonSchemaWaiver, StatusFindingSummary, TenantDemand, TenantHarnessOverview
+from .models import ApprovalDecision, ApprovalRequest, BillOfMaterials, BudgetConsumption, BundleRelease, CompileRequest, CompiledProfileDocument, CompositionCommonSchemaApiVersion, CompositionCommonSchemaAssuranceSubjects, CompositionCommonSchemaEnvironment, CompositionCommonSchemaExecutionBudgetSpec, CompositionCommonSchemaInstallUnit, CompositionCommonSchemaMetadata, CompositionCommonSchemaProviderSelection, CompositionCommonSchemaSelectorProposal, CompositionCommonSchemaSemver, CompositionCommonSchemaSha256, CompositionCommonSchemaStableId, EvidencePlan, EvidenceRecord, ExecutionBudget, HarnessCloudEvent, HarnessInstallation, HarnessProfile, HarnessStatusProjection, InstallPlan, LifecycleCommonSchemaActor, LifecycleCommonSchemaApiVersion, LifecycleCommonSchemaFailure, LifecycleCommonSchemaImmutableBinding, LifecycleCommonSchemaMetadata, LifecycleCommonSchemaReasonCode, LifecycleCommonSchemaResourceRef, LifecycleCommonSchemaSemver, LifecycleCommonSchemaSha256, LifecycleCommonSchemaStableId, LifecycleCommonSchemaTimestamp, Operation, OrganizationHarnessPortfolioPage, PlaneStatusProjection, PolicyBundle, ProjectionFreshness, ReplayRecord, RuntimeAdmissionReceipt, RuntimeCommonSchemaApiVersion, RuntimeCommonSchemaBase64urlPublicKey, RuntimeCommonSchemaBase64urlSignature, RuntimeCommonSchemaBudgetLimits, RuntimeCommonSchemaBudgetObserved, RuntimeCommonSchemaDenialReason, RuntimeCommonSchemaKeyPurpose, RuntimeCommonSchemaMetadata, RuntimeCommonSchemaNonce, RuntimeCommonSchemaSemver, RuntimeCommonSchemaSha256, RuntimeCommonSchemaSignature, RuntimeCommonSchemaStableId, RuntimeCommonSchemaTimestamp, RuntimeTrustBundle, SignedAdmissionEnvelope, StatusAxisProjection, StatusCommonSchemaAggregateState, StatusCommonSchemaApiVersion, StatusCommonSchemaApplicability, StatusCommonSchemaEvidenceAxis, StatusCommonSchemaEvidenceState, StatusCommonSchemaFinding, StatusCommonSchemaFreshness, StatusCommonSchemaFreshnessState, StatusCommonSchemaHarnessSummary, StatusCommonSchemaInstallationState, StatusCommonSchemaMetadata, StatusCommonSchemaNonWaivedEvidenceState, StatusCommonSchemaPlaneSummary, StatusCommonSchemaProjectionBinding, StatusCommonSchemaReasonCode, StatusCommonSchemaResourceRef, StatusCommonSchemaSelectionState, StatusCommonSchemaSemver, StatusCommonSchemaSha256, StatusCommonSchemaSourceCursor, StatusCommonSchemaStableId, StatusCommonSchemaStateCount, StatusCommonSchemaStatusAxis, StatusCommonSchemaTimestamp, StatusCommonSchemaWaiver, StatusFindingSummary, TenantDemand, TenantHarnessOverview
 
 __all__ = [
     'CHANNELS',
@@ -18,6 +18,7 @@ __all__ = [
     'ApprovalDecision',
     'ApprovalRequest',
     'BillOfMaterials',
+    'BudgetConsumption',
     'BundleRelease',
     'CompileRequest',
     'CompiledProfileDocument',
@@ -56,6 +57,24 @@ __all__ = [
     'PlaneStatusProjection',
     'PolicyBundle',
     'ProjectionFreshness',
+    'ReplayRecord',
+    'RuntimeAdmissionReceipt',
+    'RuntimeCommonSchemaApiVersion',
+    'RuntimeCommonSchemaBase64urlPublicKey',
+    'RuntimeCommonSchemaBase64urlSignature',
+    'RuntimeCommonSchemaBudgetLimits',
+    'RuntimeCommonSchemaBudgetObserved',
+    'RuntimeCommonSchemaDenialReason',
+    'RuntimeCommonSchemaKeyPurpose',
+    'RuntimeCommonSchemaMetadata',
+    'RuntimeCommonSchemaNonce',
+    'RuntimeCommonSchemaSemver',
+    'RuntimeCommonSchemaSha256',
+    'RuntimeCommonSchemaSignature',
+    'RuntimeCommonSchemaStableId',
+    'RuntimeCommonSchemaTimestamp',
+    'RuntimeTrustBundle',
+    'SignedAdmissionEnvelope',
     'StatusAxisProjection',
     'StatusCommonSchemaAggregateState',
     'StatusCommonSchemaApiVersion',
