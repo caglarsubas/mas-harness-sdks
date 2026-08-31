@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "harness.planeon.ai/sdk-toolchain-lock/v1",
+  "language": "typescript",
+  "syntaxLevel": "5.x-erasable",
+  "module": "ES2022",
+  "generatorRuntime": "CPython-3.12.14",
+  "generatorVersion": "planeon-contract-generator-v1",
+  "compilerRequiredForGeneration": false,
+  "dependencies": []
+}

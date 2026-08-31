@@ -1,0 +1,4 @@
+# SDK-001 bootstrap: no warm-source copy authorization exists.
+schemaVersion: harness.planeon.ai/porting-record/v1alpha1
+destinationRepository: mas-harness-sdks
+records: []
