@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "harness.planeon.ai/protocol-helper-vectors/v1",
+  "mcp": {
+    "current": {
+      "input": {
+        "version": "2026-07-28",
+        "requestId": "request-001",
+        "method": "tools/call",
+        "params": {"name": "search", "arguments": {"query": "harness status"}},
+        "clientName": "planeon-sdk",
+        "clientVersion": "1.0.0",
+        "clientCapabilities": {"extensions": {"io.modelcontextprotocol/tasks": {}}}
+      },
+      "expected": {
+        "body": {
+          "id": "request-001",
+          "jsonrpc": "2.0",
+          "method": "tools/call",
+          "params": {
+            "_meta": {
+              "io.modelcontextprotocol/clientCapabilities": {"extensions": {"io.modelcontextprotocol/tasks": {}}},
+              "io.modelcontextprotocol/clientInfo": {"name": "planeon-sdk", "version": "1.0.0"},
+              "io.modelcontextprotocol/protocolVersion": "2026-07-28"
+            },
+            "arguments": {"query": "harness status"},
+            "name": "search"
+          }
+        },
+        "headers": {
+          "Accept": "application/json, text/event-stream",
+          "Content-Type": "application/json",
+          "MCP-Protocol-Version": "2026-07-28",
+          "Mcp-Method": "tools/call",
+          "Mcp-Name": "search"
+        },
+        "version": "2026-07-28"
+      }
+    },
+    "compatibility": {
+      "input": {
+        "version": "2025-11-25",
+        "requestId": 2,
+        "method": "resources/read",
+        "params": {"uri": "file:///tenant/catalog"},
+        "sessionId": "session-abc_123"
+      },
+      "expected": {
+        "body": {
+          "id": 2,
+          "jsonrpc": "2.0",
+          "method": "resources/read",
+          "params": {"uri": "file:///tenant/catalog"}
+        },
+        "headers": {
+          "Accept": "application/json, text/event-stream",
+          "Content-Type": "application/json",
+          "MCP-Protocol-Version": "2025-11-25",
+          "Mcp-Session-Id": "session-abc_123"
+        },
+        "version": "2025-11-25"
+      }
+    }
+  },
+  "mcpTaskStates": {
+    "working": {"interrupted": false, "phase": "ACTIVE", "state": "working", "successful": null, "terminal": false},
+    "input_required": {"interrupted": true, "phase": "INTERRUPTED", "state": "input_required", "successful": null, "terminal": false},
+    "completed": {"interrupted": false, "phase": "TERMINAL", "state": "completed", "successful": true, "terminal": true},
+    "failed": {"interrupted": false, "phase": "TERMINAL", "state": "failed", "successful": false, "terminal": true},
+    "cancelled": {"interrupted": false, "phase": "TERMINAL", "state": "cancelled", "successful": false, "terminal": true}
+  },
+  "a2aTaskStates": {
+    "TASK_STATE_SUBMITTED": {"interrupted": false, "phase": "ACTIVE", "state": "TASK_STATE_SUBMITTED", "successful": null, "terminal": false},
+    "TASK_STATE_WORKING": {"interrupted": false, "phase": "ACTIVE", "state": "TASK_STATE_WORKING", "successful": null, "terminal": false},
+    "TASK_STATE_COMPLETED": {"interrupted": false, "phase": "TERMINAL", "state": "TASK_STATE_COMPLETED", "successful": true, "terminal": true},
+    "TASK_STATE_FAILED": {"interrupted": false, "phase": "TERMINAL", "state": "TASK_STATE_FAILED", "successful": false, "terminal": true},
+    "TASK_STATE_CANCELED": {"interrupted": false, "phase": "TERMINAL", "state": "TASK_STATE_CANCELED", "successful": false, "terminal": true},
+    "TASK_STATE_INPUT_REQUIRED": {"interrupted": true, "phase": "INTERRUPTED", "state": "TASK_STATE_INPUT_REQUIRED", "successful": null, "terminal": false},
+    "TASK_STATE_REJECTED": {"interrupted": false, "phase": "TERMINAL", "state": "TASK_STATE_REJECTED", "successful": false, "terminal": true},
+    "TASK_STATE_AUTH_REQUIRED": {"interrupted": true, "phase": "INTERRUPTED", "state": "TASK_STATE_AUTH_REQUIRED", "successful": null, "terminal": false}
+  },
+  "sse": {
+    "cursor": "7:operation.task-001",
+    "expected": {"Accept": "text/event-stream", "Last-Event-ID": "7:operation.task-001"}
+  },
+  "cloudEvent": {
+    "input": {
+      "specversion": "1.0",
+      "id": "123e4567-e89b-42d3-a456-426614174000",
+      "source": "urn:planeon:harness:execution.protocol",
+      "type": "harness.operation.state.changed.v1",
+      "subject": "operation.task-001",
+      "time": "2030-02-01T00:00:01Z",
+      "datacontenttype": "application/json",
+      "dataschema": "https://harness.planeon.ai/schemas/v1alpha1/events/harness-cloud-event.schema.json",
+      "organizationid": "acme.example",
+      "partitionkey": "acme.example",
+      "sequence": 7,
+      "data": {
+        "schemaVersion": "harness.planeon.ai/event-data/v1alpha1",
+        "aggregateKind": "Operation",
+        "aggregateId": "operation.task-001",
+        "aggregateVersion": 3,
+        "actor": {"type": "WORKLOAD", "id": "service.orchestrator"},
+        "correlationId": "123e4567-e89b-42d3-a456-426614174001",
+        "causationId": null,
+        "reasonCode": "STATE_ADVANCED",
+        "transition": {"from": "RUNNING", "to": "SUCCEEDED"},
+        "resourceRefs": [
+          {"kind": "artifact.output", "id": "artifact.result-001", "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"}
+        ],
+        "evidenceRefs": []
+      }
+    },
+    "canonicalJson": "{\"data\":{\"actor\":{\"id\":\"service.orchestrator\",\"type\":\"WORKLOAD\"},\"aggregateId\":\"operation.task-001\",\"aggregateKind\":\"Operation\",\"aggregateVersion\":3,\"causationId\":null,\"correlationId\":\"123e4567-e89b-42d3-a456-426614174001\",\"evidenceRefs\":[],\"reasonCode\":\"STATE_ADVANCED\",\"resourceRefs\":[{\"digest\":\"sha256:1111111111111111111111111111111111111111111111111111111111111111\",\"id\":\"artifact.result-001\",\"kind\":\"artifact.output\"}],\"schemaVersion\":\"harness.planeon.ai/event-data/v1alpha1\",\"transition\":{\"from\":\"RUNNING\",\"to\":\"SUCCEEDED\"}},\"datacontenttype\":\"application/json\",\"dataschema\":\"https://harness.planeon.ai/schemas/v1alpha1/events/harness-cloud-event.schema.json\",\"id\":\"123e4567-e89b-42d3-a456-426614174000\",\"organizationid\":\"acme.example\",\"partitionkey\":\"acme.example\",\"sequence\":7,\"source\":\"urn:planeon:harness:execution.protocol\",\"specversion\":\"1.0\",\"subject\":\"operation.task-001\",\"time\":\"2030-02-01T00:00:01Z\",\"type\":\"harness.operation.state.changed.v1\"}"
+  }
+}
