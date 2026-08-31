@@ -1,0 +1,16 @@
+[build-system]
+requires = []
+build-backend = "build_backend"
+backend-path = ["."]
+
+[project]
+name = "planeon-harness-sdk"
+version = "0.1.0"
+description = "Generated transport-neutral clients for Planeon MAS harness contracts"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = []
+
+[tool.planeon]
+contract-lock = "../contracts.lock.json"
+network-default = "disabled"

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "harness.planeon.ai/sdk-toolchain-lock/v1",
+  "language": "python",
+  "runtime": "CPython",
+  "version": "3.12.14",
+  "uvVersion": "0.12.7",
+  "buildBackend": "dependency-free-stdlib-v1",
+  "dependencies": []
+}

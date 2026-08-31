@@ -1,0 +1,7 @@
+Planeon Harness SDKs
+Copyright 2026 Planeon Harness Engineering contributors
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+Generated outputs are derived from the separately published public Planeon
+Harness Contracts interfaces identified by contracts.lock.json.
