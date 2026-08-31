@@ -87,11 +87,26 @@ def scan(root: Path) -> list[str]:
                 violations.append(f"{name} is forbidden: {path.relative_to(root)}")
 
     python_manifest = tomllib.loads((root / "python" / "pyproject.toml").read_text(encoding="utf-8"))
-    if python_manifest.get("project", {}).get("dependencies") != []:
-        violations.append("Python core dependencies must remain empty in SDK-001")
+    if python_manifest.get("project", {}).get("dependencies") != ["cryptography==49.0.0"]:
+        violations.append("Python core dependencies must equal the SDK-003 offline cryptography pin")
+    runtime_lock_path = root / "python" / "runtime-dependencies.lock.json"
+    runtime_lock = (
+        json.loads(runtime_lock_path.read_text(encoding="utf-8"))
+        if runtime_lock_path.is_file() and not runtime_lock_path.is_symlink()
+        else {}
+    )
+    locked = runtime_lock.get("packages") if isinstance(runtime_lock, dict) else None
+    if not isinstance(locked, list) or {
+        (item.get("name"), item.get("version"))
+        for item in locked
+        if isinstance(item, dict)
+    } != {("cffi", "2.1.0"), ("cryptography", "49.0.0"), ("pycparser", "3.0")}:
+        violations.append("Python runtime dependency closure differs from SDK-003 authority")
+    if not isinstance(runtime_lock, dict) or runtime_lock.get("networkRequired") is not False:
+        violations.append("Python runtime dependency lock must forbid network access")
     typescript_manifest = json.loads((root / "typescript" / "package.json").read_text(encoding="utf-8"))
     if typescript_manifest.get("dependencies") != {} or typescript_manifest.get("devDependencies") != {}:
-        violations.append("TypeScript dependencies must remain empty in SDK-001")
+        violations.append("TypeScript dependencies must remain empty in SDK-003")
     return sorted(set(violations))
 
 

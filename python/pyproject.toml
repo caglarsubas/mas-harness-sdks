@@ -9,7 +9,7 @@ version = "0.1.0"
 description = "Generated transport-neutral clients for Planeon MAS harness contracts"
 requires-python = ">=3.10"
 license = "Apache-2.0"
-dependencies = []
+dependencies = ["cryptography==49.0.0"]
 
 [tool.planeon]
 contract-lock = "../contracts.lock.json"

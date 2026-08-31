@@ -29,7 +29,7 @@ class PackageMetadataTests(unittest.TestCase):
                 metadata_name = next(name for name in names if name.endswith(".dist-info/METADATA"))
                 metadata = archive.read(metadata_name).decode("utf-8")
                 self.assertIn("Requires-Python: >=3.10", metadata)
-                self.assertNotIn("Requires-Dist:", metadata)
+                self.assertIn("Requires-Dist: cryptography==49.0.0", metadata)
 
 
 if __name__ == "__main__":

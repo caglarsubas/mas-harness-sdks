@@ -36,6 +36,7 @@ RELEASE_FIELDS = {
     "manifestPath",
     "manifestSha256",
     "artifactState",
+    "extensionPacketIds",
 }
 FILE_FIELDS = {"path", "sha256", "role"}
 
@@ -65,6 +66,7 @@ def verify() -> dict[str, object]:
         "manifestPath": "contracts/release-manifest.json",
         "manifestSha256": release["manifestSha256"],
         "artifactState": "SOURCE_CONTRACT_ONLY",
+        "extensionPacketIds": ["CON-007"],
     }:
         raise ValueError("contract release identity is not the approved source release")
     if not isinstance(release["manifestSha256"], str) or DIGEST_PATTERN.fullmatch(
@@ -75,7 +77,11 @@ def verify() -> dict[str, object]:
     if sha256_file(manifest_path) != release["manifestSha256"]:
         raise ValueError("contract release manifest snapshot drifted")
     manifest = load_json(manifest_path)
-    if not isinstance(manifest, dict) or manifest.get("packetId") != release["packetId"]:
+    if (
+        not isinstance(manifest, dict)
+        or manifest.get("packetId") != release["packetId"]
+        or manifest.get("extensionPacketIds") != release["extensionPacketIds"]
+    ):
         raise ValueError("contract release manifest identity drifted")
     manifest_entries = {
         entry["path"]: entry
@@ -84,8 +90,8 @@ def verify() -> dict[str, object]:
     }
 
     raw_files = lock["files"]
-    if not isinstance(raw_files, list) or len(raw_files) != 31:
-        raise ValueError("contract lock must contain exactly 31 API inputs")
+    if not isinstance(raw_files, list) or len(raw_files) != 37:
+        raise ValueError("contract lock must contain exactly 37 API inputs")
     paths: list[str] = []
     roles: set[str] = set()
     for raw_entry in raw_files:

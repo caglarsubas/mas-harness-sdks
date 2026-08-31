@@ -44,10 +44,10 @@ class GenerationTests(unittest.TestCase):
     def test_contract_lock_and_snapshot_are_closed(self) -> None:
         report = verify_contract_lock.verify()
         self.assertTrue(report["accepted"])
-        self.assertEqual(report["files"], 31)
+        self.assertEqual(report["files"], 37)
         self.assertEqual(
             report["manifestSha256"],
-            "sha256:76c6098ce16da7e5c45d7955feb65f4972715c803e4f989443def0edbca38105",
+            "sha256:c5dd4c39d1c69d07f8d8de3d1a09584bb906172fee2d5ac20ad25ff344b0db79",
         )
 
     def test_committed_generation_matches_expected_bytes(self) -> None:
@@ -64,15 +64,15 @@ class GenerationTests(unittest.TestCase):
         self.assertEqual({item["operationId"] for item in manifest["operations"]}, EXPECTED_OPERATIONS)
         self.assertEqual(set(manifest["channels"]), EXPECTED_CHANNELS)
         self.assertEqual(manifest["messages"], ["HarnessCloudEvent"])
-        self.assertEqual(len(manifest["models"]), 70)
+        self.assertEqual(len(manifest["models"]), 89)
         self.assertEqual(len(manifest["generatedFiles"]), 16)
 
     def test_python_surface_is_release_bound(self) -> None:
         self.assertEqual(
             CONTRACT_RELEASE_DIGEST,
-            "sha256:76c6098ce16da7e5c45d7955feb65f4972715c803e4f989443def0edbca38105",
+            "sha256:c5dd4c39d1c69d07f8d8de3d1a09584bb906172fee2d5ac20ad25ff344b0db79",
         )
-        self.assertEqual(len(MODEL_CONTRACTS), 70)
+        self.assertEqual(len(MODEL_CONTRACTS), 89)
         self.assertEqual(set(OPERATIONS), EXPECTED_OPERATIONS)
         self.assertEqual(set(CHANNELS), EXPECTED_CHANNELS)
 
@@ -139,6 +139,13 @@ class GenerationTests(unittest.TestCase):
         package = json.loads((ROOT / "typescript" / "package.json").read_text(encoding="utf-8"))
         self.assertEqual(package["dependencies"], {})
         self.assertEqual(package["devDependencies"], {})
+        self.assertEqual(
+            package["exports"]["./runtime"],
+            {
+                "types": "./dist/runtime/index.d.ts",
+                "import": "./dist/runtime/index.js",
+            },
+        )
 
 
 if __name__ == "__main__":

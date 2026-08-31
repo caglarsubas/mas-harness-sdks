@@ -33,6 +33,7 @@ def _metadata() -> bytes:
         "Summary: Generated transport-neutral clients for Planeon MAS harness contracts\n"
         "License-Expression: Apache-2.0\n"
         "Requires-Python: >=3.10\n"
+        "Requires-Dist: cryptography==49.0.0\n"
         "Description-Content-Type: text/markdown\n"
         "\n"
         "Offline-first generated Planeon harness SDK.\n"

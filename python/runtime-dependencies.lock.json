@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "harness.planeon.ai/python-runtime-dependencies/v1",
+  "python": "3.12.14",
+  "platform": "macosx_11_0_arm64",
+  "source": "PREPROVISIONED_OFFLINE_WHEELHOUSE",
+  "networkRequired": false,
+  "packages": [
+    {
+      "name": "cffi",
+      "version": "2.1.0",
+      "wheel": "cffi-2.1.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "sha256": "a06422590f0bbfef6d501b71941c1429be31e86c0e1c51ffdffa13ffe8edd937",
+      "upstreamSha256": "78474632761faa0fb96f30b1c928c84ebcf68713cbb80d15bab09dfe61640fde"
+    },
+    {
+      "name": "cryptography",
+      "version": "49.0.0",
+      "wheel": "cryptography-49.0.0-cp311-abi3-macosx_11_0_arm64.whl",
+      "sha256": "32b700c31d4729bcf273c8105b79af0d097c360539bb0cdabee9895967a1d1ed",
+      "upstreamSha256": "966fe0e9c67490071f14c0d2b1cb2dfb3023c5ce39457343931415f08382f2db"
+    },
+    {
+      "name": "pycparser",
+      "version": "3.0",
+      "wheel": "pycparser-3.0-py3-none-any.whl",
+      "sha256": "1db63b75352951790b3271362d125c817d07d89e7ff7c43d23c9b4ada80c1117",
+      "upstreamSha256": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"
+    }
+  ]
+}
