@@ -23,21 +23,41 @@ FIXED_EPOCH = 946684800
 PYTHON_ROOT = Path(__file__).resolve().parent
 REPOSITORY_ROOT = PYTHON_ROOT.parent
 PACKAGE_ROOT = PYTHON_ROOT / "src" / "planeon_harness"
+OPTIONAL_DEPENDENCIES = (
+    ("crewai", "crewai>=1.15,<2"),
+    ("langchain", "langchain-core>=1.6,<2"),
+    ("langgraph", "langgraph>=1.2,<2"),
+    ("mcp", "mcp>=2.1,<3"),
+    ("semantic-kernel", "semantic-kernel>=1.44,<2"),
+)
 
 
 def _metadata() -> bytes:
-    return (
-        "Metadata-Version: 2.4\n"
-        f"Name: {NAME}\n"
-        f"Version: {VERSION}\n"
-        "Summary: Generated transport-neutral clients for Planeon MAS harness contracts\n"
-        "License-Expression: Apache-2.0\n"
-        "Requires-Python: >=3.10\n"
-        "Requires-Dist: cryptography==49.0.0\n"
-        "Description-Content-Type: text/markdown\n"
-        "\n"
-        "Offline-first generated Planeon harness SDK.\n"
-    ).encode("utf-8")
+    lines = [
+        "Metadata-Version: 2.4",
+        f"Name: {NAME}",
+        f"Version: {VERSION}",
+        "Summary: Generated transport-neutral clients for Planeon MAS harness contracts",
+        "License-Expression: Apache-2.0",
+        "Requires-Python: >=3.10",
+        "Requires-Dist: cryptography==49.0.0",
+    ]
+    for extra, requirement in OPTIONAL_DEPENDENCIES:
+        lines.extend(
+            (
+                f"Provides-Extra: {extra}",
+                f'Requires-Dist: {requirement}; extra == "{extra}"',
+            )
+        )
+    lines.extend(
+        (
+            "Description-Content-Type: text/markdown",
+            "",
+            "Offline-first generated Planeon harness SDK.",
+            "",
+        )
+    )
+    return "\n".join(lines).encode("utf-8")
 
 
 def _wheel_metadata() -> bytes:
@@ -163,6 +183,10 @@ def build_sdist(
         (f"{ARCHIVE_ROOT}/README.md", (REPOSITORY_ROOT / "README.md").read_bytes()),
         (f"{ARCHIVE_ROOT}/pyproject.toml", (PYTHON_ROOT / "pyproject.toml").read_bytes()),
         (f"{ARCHIVE_ROOT}/build_backend.py", Path(__file__).read_bytes()),
+        (
+            f"{ARCHIVE_ROOT}/optional-dependencies.lock",
+            (PYTHON_ROOT / "optional-dependencies.lock").read_bytes(),
+        ),
     ]
     entries.extend((f"{ARCHIVE_ROOT}/src/{name}", data) for name, data in _package_files())
     with (destination / filename).open("wb") as raw:

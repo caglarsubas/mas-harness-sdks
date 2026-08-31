@@ -58,11 +58,13 @@ class MakeDispatcherTests(unittest.TestCase):
                 "contract",
                 "generated-check",
                 "help",
+                "integration-matrix",
                 "prefetch",
                 "protocol-vectors",
                 "runtime-vectors",
                 "security",
                 "telemetry-vectors",
+                "zero-bill",
             },
         )
 
