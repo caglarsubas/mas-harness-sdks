@@ -55,6 +55,7 @@ class MakeDispatcherTests(unittest.TestCase):
             {rule.name for rule in rules},
             {
                 "build-reproducible",
+                "compat-vectors",
                 "contract",
                 "generated-check",
                 "guardrail-vectors",
