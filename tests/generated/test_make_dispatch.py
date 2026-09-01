@@ -57,6 +57,7 @@ class MakeDispatcherTests(unittest.TestCase):
                 "build-reproducible",
                 "contract",
                 "generated-check",
+                "guardrail-vectors",
                 "help",
                 "integration-matrix",
                 "prefetch",

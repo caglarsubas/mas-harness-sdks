@@ -1,0 +1,488 @@
+{
+  "schemaVersion": "harness.planeon.ai/guardrail-conformance/v1",
+  "vectors": [
+    {
+      "id": "input-allow",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.input",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.allow"]
+      },
+      "detectors": [{"detectorId": "detector.allow", "behavior": "ALLOW"}],
+      "content": "ordinary request",
+      "expectedResult": {
+        "profileId": "profile.input",
+        "profileVersion": "1.0.0",
+        "stage": "INPUT",
+        "outcome": "ALLOW",
+        "reasonCode": "NO_MATCH",
+        "detectorFindings": [
+          {"detectorId": "detector.allow", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}
+        ],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "output-deny",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.output",
+        "version": "1.0.0",
+        "stage": "OUTPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.deny"]
+      },
+      "detectors": [{"detectorId": "detector.deny", "behavior": "ACTION", "action": "DENY", "reasonCode": "POLICY_DENY", "redactionRanges": []}],
+      "content": "PRIVATE_DENY_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.output",
+        "profileVersion": "1.0.0",
+        "stage": "OUTPUT",
+        "outcome": "DENY",
+        "reasonCode": "POLICY_DENY",
+        "detectorFindings": [
+          {"detectorId": "detector.deny", "action": "DENY", "reasonCode": "POLICY_DENY", "redactionRanges": []}
+        ],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "runtime-quarantine",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.runtime",
+        "version": "1.0.0",
+        "stage": "RUNTIME",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.quarantine"]
+      },
+      "detectors": [{"detectorId": "detector.quarantine", "behavior": "ACTION", "action": "QUARANTINE", "reasonCode": "RUNTIME_ISOLATE", "redactionRanges": []}],
+      "content": "PRIVATE_RUNTIME_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.runtime",
+        "profileVersion": "1.0.0",
+        "stage": "RUNTIME",
+        "outcome": "QUARANTINE",
+        "reasonCode": "RUNTIME_ISOLATE",
+        "detectorFindings": [
+          {"detectorId": "detector.quarantine", "action": "QUARANTINE", "reasonCode": "RUNTIME_ISOLATE", "redactionRanges": []}
+        ],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "unicode-overlap-adjacent-redaction",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.redaction",
+        "version": "1.0.0",
+        "stage": "OUTPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.redact.one", "detector.redact.two", "detector.redact.three"]
+      },
+      "detectors": [
+        {"detectorId": "detector.redact.one", "behavior": "ACTION", "action": "REDACT", "reasonCode": "PROTECTED_ONE", "redactionRanges": [{"start": 1, "end": 3}, {"start": 4, "end": 10}]},
+        {"detectorId": "detector.redact.two", "behavior": "ACTION", "action": "REDACT", "reasonCode": "PROTECTED_TWO", "redactionRanges": [{"start": 3, "end": 4}]},
+        {"detectorId": "detector.redact.three", "behavior": "ACTION", "action": "REDACT", "reasonCode": "PROTECTED_THREE", "redactionRanges": [{"start": 2, "end": 5}]}
+      ],
+      "content": "A🔒BCSECRETZ",
+      "expectedResult": {
+        "profileId": "profile.redaction",
+        "profileVersion": "1.0.0",
+        "stage": "OUTPUT",
+        "outcome": "REDACT",
+        "reasonCode": "PROTECTED_ONE",
+        "detectorFindings": [
+          {"detectorId": "detector.redact.one", "action": "REDACT", "reasonCode": "PROTECTED_ONE", "redactionRanges": [{"start": 1, "end": 3}, {"start": 4, "end": 10}]},
+          {"detectorId": "detector.redact.two", "action": "REDACT", "reasonCode": "PROTECTED_TWO", "redactionRanges": [{"start": 3, "end": 4}]},
+          {"detectorId": "detector.redact.three", "action": "REDACT", "reasonCode": "PROTECTED_THREE", "redactionRanges": [{"start": 2, "end": 5}]}
+        ],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": "A[REDACTED]Z"
+      }
+    },
+    {
+      "id": "fail-closed-detector-error",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.fail-closed",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.allow", "detector.failure"]
+      },
+      "detectors": [
+        {"detectorId": "detector.allow", "behavior": "ALLOW"},
+        {"detectorId": "detector.failure", "behavior": "THROW"}
+      ],
+      "content": "PRIVATE_FAILURE_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.fail-closed",
+        "profileVersion": "1.0.0",
+        "stage": "INPUT",
+        "outcome": "ERROR_FAIL_CLOSED",
+        "reasonCode": "DETECTOR_FAILURE",
+        "detectorFindings": [
+          {"detectorId": "detector.allow", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}
+        ],
+        "failedDetectorIds": ["detector.failure"],
+        "degraded": true,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "fail-open-detector-error",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.fail-open",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_OPEN",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.failure", "detector.allow"]
+      },
+      "detectors": [
+        {"detectorId": "detector.failure", "behavior": "THROW"},
+        {"detectorId": "detector.allow", "behavior": "ALLOW"}
+      ],
+      "content": "PRIVATE_FAIL_OPEN_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.fail-open",
+        "profileVersion": "1.0.0",
+        "stage": "INPUT",
+        "outcome": "ERROR_FAIL_OPEN",
+        "reasonCode": "DETECTOR_FAILURE_FAIL_OPEN",
+        "detectorFindings": [
+          {"detectorId": "detector.allow", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}
+        ],
+        "failedDetectorIds": ["detector.failure"],
+        "degraded": true,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "fail-open-with-redaction",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.degraded-redaction",
+        "version": "1.0.0",
+        "stage": "OUTPUT",
+        "failMode": "FAIL_OPEN",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.failure", "detector.redact"]
+      },
+      "detectors": [
+        {"detectorId": "detector.failure", "behavior": "THROW"},
+        {"detectorId": "detector.redact", "behavior": "ACTION", "action": "REDACT", "reasonCode": "KNOWN_SECRET", "redactionRanges": [{"start": 1, "end": 7}]}
+      ],
+      "content": "XSECRETY",
+      "expectedResult": {
+        "profileId": "profile.degraded-redaction",
+        "profileVersion": "1.0.0",
+        "stage": "OUTPUT",
+        "outcome": "REDACT",
+        "reasonCode": "KNOWN_SECRET",
+        "detectorFindings": [
+          {"detectorId": "detector.redact", "action": "REDACT", "reasonCode": "KNOWN_SECRET", "redactionRanges": [{"start": 1, "end": 7}]}
+        ],
+        "failedDetectorIds": ["detector.failure"],
+        "degraded": true,
+        "redactedContent": "X[REDACTED]Y"
+      }
+    },
+    {
+      "id": "deterministic-action-precedence",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.precedence",
+        "version": "1.0.0",
+        "stage": "RUNTIME",
+        "failMode": "FAIL_OPEN",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.redact", "detector.deny.one", "detector.quarantine", "detector.deny.two"]
+      },
+      "detectors": [
+        {"detectorId": "detector.redact", "behavior": "ACTION", "action": "REDACT", "reasonCode": "LOWER_REDACT", "redactionRanges": [{"start": 0, "end": 1}]},
+        {"detectorId": "detector.deny.one", "behavior": "ACTION", "action": "DENY", "reasonCode": "DENY_ONE", "redactionRanges": []},
+        {"detectorId": "detector.quarantine", "behavior": "ACTION", "action": "QUARANTINE", "reasonCode": "LOWER_QUARANTINE", "redactionRanges": []},
+        {"detectorId": "detector.deny.two", "behavior": "ACTION", "action": "DENY", "reasonCode": "DENY_TWO", "redactionRanges": []}
+      ],
+      "content": "PRIVATE_PRECEDENCE_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.precedence",
+        "profileVersion": "1.0.0",
+        "stage": "RUNTIME",
+        "outcome": "DENY",
+        "reasonCode": "DENY_ONE",
+        "detectorFindings": [
+          {"detectorId": "detector.redact", "action": "REDACT", "reasonCode": "LOWER_REDACT", "redactionRanges": [{"start": 0, "end": 1}]},
+          {"detectorId": "detector.deny.one", "action": "DENY", "reasonCode": "DENY_ONE", "redactionRanges": []},
+          {"detectorId": "detector.quarantine", "action": "QUARANTINE", "reasonCode": "LOWER_QUARANTINE", "redactionRanges": []},
+          {"detectorId": "detector.deny.two", "action": "DENY", "reasonCode": "DENY_TWO", "redactionRanges": []}
+        ],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "utf8-byte-limit-before-detector",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.utf8-limit",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 4,
+        "detectorIds": ["detector.failure"]
+      },
+      "detectors": [{"detectorId": "detector.failure", "behavior": "THROW"}],
+      "content": "ééé",
+      "expectedResult": {
+        "profileId": "profile.utf8-limit",
+        "profileVersion": "1.0.0",
+        "stage": "INPUT",
+        "outcome": "DENY",
+        "reasonCode": "PAYLOAD_TOO_LARGE",
+        "detectorFindings": [],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "malformed-finding-fails-closed",
+      "kind": "EVALUATE",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.malformed",
+        "version": "1.0.0",
+        "stage": "OUTPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.malformed"]
+      },
+      "detectors": [{"detectorId": "detector.malformed", "behavior": "MALFORMED"}],
+      "content": "PRIVATE_MALFORMED_TOKEN",
+      "expectedResult": {
+        "profileId": "profile.malformed",
+        "profileVersion": "1.0.0",
+        "stage": "OUTPUT",
+        "outcome": "ERROR_FAIL_CLOSED",
+        "reasonCode": "DETECTOR_FAILURE",
+        "detectorFindings": [],
+        "failedDetectorIds": ["detector.malformed"],
+        "degraded": true,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "streaming-cross-boundary-terminal",
+      "kind": "STREAM",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.streaming-deny",
+        "version": "1.0.0",
+        "stage": "STREAMING",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.pattern"]
+      },
+      "detectors": [{"detectorId": "detector.pattern", "behavior": "PATTERN", "pattern": "SECRET", "action": "DENY", "reasonCode": "PATTERN_DENY"}],
+      "chunks": ["SEC", "RET"],
+      "expectedPushResults": [
+        {
+          "profileId": "profile.streaming-deny",
+          "profileVersion": "1.0.0",
+          "stage": "STREAMING",
+          "outcome": "ALLOW",
+          "reasonCode": "NO_MATCH",
+          "detectorFindings": [{"detectorId": "detector.pattern", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}],
+          "failedDetectorIds": [],
+          "degraded": false,
+          "redactedContent": null
+        },
+        {
+          "profileId": "profile.streaming-deny",
+          "profileVersion": "1.0.0",
+          "stage": "STREAMING",
+          "outcome": "DENY",
+          "reasonCode": "PATTERN_DENY",
+          "detectorFindings": [{"detectorId": "detector.pattern", "action": "DENY", "reasonCode": "PATTERN_DENY", "redactionRanges": []}],
+          "failedDetectorIds": [],
+          "degraded": false,
+          "redactedContent": null
+        }
+      ],
+      "afterCall": {"method": "PUSH", "value": "PRIVATE_AFTER_TERMINAL"},
+      "expectedError": "STREAM_TERMINATED"
+    },
+    {
+      "id": "streaming-unicode-redact-finish",
+      "kind": "STREAM",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.streaming-redact",
+        "version": "1.0.0",
+        "stage": "STREAMING",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.pattern"]
+      },
+      "detectors": [{"detectorId": "detector.pattern", "behavior": "PATTERN", "pattern": "🔒B", "action": "REDACT", "reasonCode": "STREAM_SECRET"}],
+      "chunks": ["A🔒", "B"],
+      "expectedPushResults": [
+        {
+          "profileId": "profile.streaming-redact",
+          "profileVersion": "1.0.0",
+          "stage": "STREAMING",
+          "outcome": "ALLOW",
+          "reasonCode": "NO_MATCH",
+          "detectorFindings": [{"detectorId": "detector.pattern", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}],
+          "failedDetectorIds": [],
+          "degraded": false,
+          "redactedContent": null
+        },
+        {
+          "profileId": "profile.streaming-redact",
+          "profileVersion": "1.0.0",
+          "stage": "STREAMING",
+          "outcome": "REDACT",
+          "reasonCode": "STREAM_SECRET",
+          "detectorFindings": [{"detectorId": "detector.pattern", "action": "REDACT", "reasonCode": "STREAM_SECRET", "redactionRanges": [{"start": 1, "end": 3}]}],
+          "failedDetectorIds": [],
+          "degraded": false,
+          "redactedContent": "A[REDACTED]"
+        }
+      ],
+      "finish": true,
+      "expectedFinishResult": {
+        "profileId": "profile.streaming-redact",
+        "profileVersion": "1.0.0",
+        "stage": "STREAMING",
+        "outcome": "REDACT",
+        "reasonCode": "STREAM_SECRET",
+        "detectorFindings": [{"detectorId": "detector.pattern", "action": "REDACT", "reasonCode": "STREAM_SECRET", "redactionRanges": [{"start": 1, "end": 3}]}],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": "A[REDACTED]"
+      },
+      "afterCall": {"method": "FINISH"},
+      "expectedError": "STREAM_FINISHED"
+    },
+    {
+      "id": "streaming-empty-finish",
+      "kind": "STREAM",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.streaming-empty",
+        "version": "1.0.0",
+        "stage": "STREAMING",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.allow"]
+      },
+      "detectors": [{"detectorId": "detector.allow", "behavior": "ALLOW"}],
+      "chunks": [],
+      "finish": true,
+      "expectedPushResults": [],
+      "expectedFinishResult": {
+        "profileId": "profile.streaming-empty",
+        "profileVersion": "1.0.0",
+        "stage": "STREAMING",
+        "outcome": "ALLOW",
+        "reasonCode": "NO_MATCH",
+        "detectorFindings": [{"detectorId": "detector.allow", "action": "ALLOW", "reasonCode": "NO_MATCH", "redactionRanges": []}],
+        "failedDetectorIds": [],
+        "degraded": false,
+        "redactedContent": null
+      }
+    },
+    {
+      "id": "missing-detector-construction",
+      "kind": "CONSTRUCTION_ERROR",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.missing",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.missing"]
+      },
+      "detectors": [{"detectorId": "detector.allow", "behavior": "ALLOW"}],
+      "expectedError": "UNKNOWN_DETECTOR"
+    },
+    {
+      "id": "non-streaming-profile-rejects-stream",
+      "kind": "STREAM_CREATION_ERROR",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.not-streaming",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.allow"]
+      },
+      "detectors": [{"detectorId": "detector.allow", "behavior": "ALLOW"}],
+      "expectedError": "INVALID_GUARDRAIL_PROFILE"
+    },
+    {
+      "id": "closed-profile-rejects-extra-field",
+      "kind": "PROFILE_ERROR",
+      "profile": {
+        "apiVersion": "harness.planeon.ai/v1alpha1",
+        "kind": "GuardrailProfile",
+        "profileId": "profile.extra",
+        "version": "1.0.0",
+        "stage": "INPUT",
+        "failMode": "FAIL_CLOSED",
+        "maximumContentBytes": 1024,
+        "detectorIds": ["detector.allow"],
+        "unexpected": "PRIVATE_PROFILE_FIELD"
+      },
+      "detectors": [],
+      "expectedError": "INVALID_GUARDRAIL_PROFILE"
+    }
+  ]
+}

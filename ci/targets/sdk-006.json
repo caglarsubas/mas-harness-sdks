@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "harness.planeon.ai/make-target-descriptor/v1alpha1",
+  "packetId": "SDK-006",
+  "targets": [
+    {
+      "name": "guardrail-vectors",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "generators/verify_contract_lock.py"],
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/guardrail", "-p", "test_*.py"],
+        ["node", "--test", "typescript/tests/guardrail/guardrail.test.ts"],
+        ["node", "--test", "typescript/tests/guardrail/package-guardrail.test.mjs"],
+        ["python3", "typescript/tests/guardrail/verify_surfaces.py"]
+      ]
+    },
+    {
+      "name": "security",
+      "acceptedVariables": {},
+      "argvTemplate": [
+        ["python3", "-m", "unittest", "discover", "-s", "python/tests/guardrail", "-p", "test_security.py"],
+        ["node", "--test", "typescript/tests/guardrail/security.test.ts"],
+        ["python3", "typescript/tests/guardrail/verify_surfaces.py"]
+      ]
+    }
+  ]
+}
