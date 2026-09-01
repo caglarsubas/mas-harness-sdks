@@ -1,0 +1,18 @@
+[build-system]
+requires = []
+build-backend = "build_compat"
+backend-path = ["compat/prometa"]
+
+[project]
+name = "planeon-prometa-compat"
+version = "0.1.0"
+description = "Deprecated prometa import aliases for planeon-harness-sdk v1 migrations"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = ["planeon-harness-sdk==0.1.0"]
+
+[tool.planeon.compatibility]
+canonical-import = "planeon_harness"
+compatibility-import = "prometa"
+removal-version = "2.0.0"
+network-default = "disabled"
